@@ -49,7 +49,7 @@ puts big_orders
 
 puts "Small orders:"
 small_orders = orders.reject do |order|
-  order.total >= 300
+  order.total > 300
 end
 puts small_orders
 
