@@ -11,7 +11,7 @@ class Order
   end
 
   def tax
-    total * TAX_TABLE[state]
+    total * TAX_TABLE[state.to_sym]
   end
 
   def to_s
@@ -55,3 +55,48 @@ puts small_orders
 
 puts "Pending orders: #{orders.any? { |order| order.status == :pending }}"
 puts orders.detect { |order| order.status == :pending }
+
+pending_orders, completed_orders = orders.partition { |order| order.status == :pending }
+puts "Pending orders:"
+puts pending_orders
+puts "Completed orders:"
+puts completed_orders
+
+big_orders, small_orders = orders.partition { |order| order.total >= 300 }
+puts "Big orders:"
+puts big_orders
+puts "Small orders:"
+puts small_orders
+
+puts "Newsletter emails:"
+
+# emails = []
+# orders.each do |order|
+#   emails << order.email.lowcase
+# end
+# puts emails
+
+emails = orders.map { |order| order.email.downcase }
+puts emails
+
+puts "CO Taxes:"
+
+# co_orders = orders.select { |order| order.state == "CO" }
+# co_taxes = co_orders.map { |order| order.tax }
+# p co_taxes
+
+co_taxes = orders.select { |order| order.state == "CO" }.map { |order| order.tax }
+p co_taxes
+
+# sum = 0
+# orders.each { |order| sum += order.total }
+# puts "Total sales: $#{sum}"
+
+sum = orders.reduce(0) { |sum, order| sum + order.total }
+puts "Total sales: $#{sum}"
+
+# total_tax = orders.reduce(0) { |total, order| total + order.tax }
+# puts "Total tax: $#{total_tax}"
+
+total_tax = orders.map { |order| order.tax }.reduce(:+)
+puts "Total tax: $#{total_tax}"
