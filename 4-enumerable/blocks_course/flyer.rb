@@ -32,3 +32,29 @@ puts infrequent_flyers
 
 puts "Platinum status? #{flyers.any? { |flyer| flyer.status == :platinum }}"
 puts flyers.detect { |flyer| flyer.status == :platinum }
+
+platinum_flyers, other_flyers = flyers.partition { |flyer| flyer.status == :platinum }
+
+puts "Platinum Flyers:"
+puts platinum_flyers
+
+puts "Other Flyers:"
+puts other_flyers
+
+name_tags = flyers.map { |flyer| "#{flyer.name} (#{flyer.status.upcase})"}
+p name_tags
+
+totals_in_kms = flyers.map { |flyer| flyer.miles_flown * 1.6 }
+p totals_in_kms
+
+total_miles_flown = flyers.reduce(0) { |sum, flyer| sum + flyer.miles_flown }
+puts "Total miles flown: #{total_miles_flown}"
+
+total_kms_flown = flyers.map { |flyer| flyer.miles_flown * 1.6 }.reduce(0, :+)
+puts "Total km flown: #{total_kms_flown}"
+
+total_bronze_kms_flown = flyers.select { |flyer| flyer.status == :bronze }.map { |flyer| flyer.miles_flown * 1.6 }.reduce(:+)
+puts "Total bronze kms flown: #{total_bronze_kms_flown}"
+
+top_flyer = flyers.max_by { |flyer| flyer.miles_flown }
+puts "Top Flyer: #{top_flyer}"
