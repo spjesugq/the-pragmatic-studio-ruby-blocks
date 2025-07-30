@@ -26,3 +26,22 @@ end
 time_it("Sleepy code") do
   sleep(0.5)
 end
+
+require 'benchmark'
+
+elapsed_time = Benchmark.realtime do
+  sleep(1)
+end
+
+puts "It took #{elapsed_time}"
+
+def time_it(name)
+  elapsed_time = Benchmark.realtime do
+    yield
+  end
+  puts "#{name} took #{elapsed_time}"
+end
+
+time_it("Sleepy code") do
+  sleep(1)
+end
