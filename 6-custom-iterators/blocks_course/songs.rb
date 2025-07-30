@@ -80,3 +80,21 @@ playlist.each_tagline { |tagline| puts tagline }
 playlist.each_filename { |filename| puts filename }
 playlist.each_by_artist("Hank") { |song| song.play }
 playlist.each_by_artist("Waylon") { |song| song.play }
+
+puts ""
+
+require_relative 'my_enumerable'
+
+class Playlist
+  include MyEnumerable
+end
+
+okie_songs = playlist.my_select { |song| song.name =~ /Okie/ }
+p okie_songs
+song_labels = playlist.my_map { |song| "#{song.name} - #{song.artist}" }
+p song_labels
+non_okie_songs = playlist.my_reject { |song| song.name =~ /Okie/ }
+p non_okie_songs
+p playlist.my_detect { |song| song.artist == "Hank" }
+total_duration = playlist.my_reduce(0) { |sum, song| sum + song.duration }
+p total_duration
