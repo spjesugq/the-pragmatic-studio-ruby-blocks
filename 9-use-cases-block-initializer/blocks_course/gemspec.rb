@@ -32,3 +32,10 @@ puts spec
 spec = Jem::Specification.new
 spec.name = "Mike"
 puts spec
+
+# Rails only
+# user = User.new do |u|
+#   u.name = "Larry"
+#   u.email = "larry@example.com"
+#   u.occupation = "Comedian"
+# end
