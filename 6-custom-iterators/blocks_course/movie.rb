@@ -17,7 +17,8 @@ movie_2 = Movie.new("Cast Away", "PG", 143)
 movie_3 = Movie.new("Apollo 13", "PG", 140)
 movie_4 = Movie.new("Cars", "G", 117)
 
-class MovieQueue include Enumerable
+class MovieQueue
+  include Enumerable
 
   def initialize(name)
     @name = name
@@ -46,3 +47,30 @@ queue.each { |movie| movie.watch }
 queue.each_by_rating("PG") { |movie| movie.watch }
 queue.select { |movie| movie.duration > 100 }.each { |movie| movie.watch }
 queue.detect { |movie| movie.title =~ /13/ }
+
+puts ""
+
+module MyEnumerable
+  def my_select
+    new_array = []
+    each do |value|
+      new_array << value if yield(value)
+    end
+    new_array
+  end
+
+  def my_map
+    new_array = []
+    each do |value|
+      new_array << yield(value)
+    end
+    new_array
+  end
+end
+
+class MovieQueue
+  include MyEnumerable
+end
+
+queue.my_select { |movie| movie.duration > 100 }.each { |movie| movie.watch }
+queue.my_map { |movie| movie.title.downcase }.each { |movie| puts movie }
